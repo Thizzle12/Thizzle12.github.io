@@ -1,16 +1,23 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Page Title</title>
-     <script src="d3.js" type="text/javascript"></script>
-  </head>
-  <body>
-    <script type="text/javascript">
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>D3: Inserting additional text into paragraphs</title>
+		<script type="text/javascript" src="../d3.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
 
-    </script>
+			var dataset = [ 5, 10, 15, 20, 25 ];
 
-    <h1>This is a Heading</h1>
-    <p>This is a paragraph.</p>
+			d3.select("body").selectAll("p")
+				.data(dataset)
+				.enter()
+				.append("p")
+				.text(function(d) {
+					return "I can count up to " + d;
+				});
 
-  </body>
+		</script>
+	</body>
 </html>
