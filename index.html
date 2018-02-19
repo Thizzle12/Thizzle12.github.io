@@ -7,6 +7,7 @@
 		<link rel="stylesheet" type="text/css" href="ExFruit.css">
 	</head>
 	<body>
+		<h2>NYC Green Markets - Unique Produce Types</h2>
 		<p id="index0" class="selection">Fresh Fruit</p>
 		<p id="index1" class="selection">Storage Fruit</p>
 		<p id="index2" class="selection">Fresh Vegetables</p>
@@ -16,7 +17,8 @@
 			var dataset, xScale, yScale;
 			var w = 1000;
 			var h = 300;
-			var padding = 30;
+			var xPadding = 60;
+			var yPadding = 40;
 			var svg, xAxis, yAxis;
 			var origData;
 			var ticks = d3.range([12]);
@@ -27,14 +29,14 @@
 				dataset = data.slice(0,12);
 				xScale = d3.scaleBand()
 										.domain(d3.range([12]))
-										.rangeRound([0,w-padding])
+										.rangeRound([0,w-xPadding])
 										.paddingInner(0.05);
 
 				yScale = d3.scaleLinear()
 										.domain([0, d3.max(dataset, function(d){
 											return parseFloat(d.Count);
 										})])
-										.range([h-padding, 0]);
+										.range([h-yPadding, 0]);
 
 				xAxis = d3.axisBottom()
 									.scale(xScale)
@@ -51,6 +53,9 @@
 			});
 
 			function makeVis(){
+
+
+
 				svg = d3.select("body")
 									.append("svg")
 									.attr("width", w)
@@ -61,14 +66,14 @@
 					.enter()
 					.append("rect")
 					.attr("x", function(d, i){
-						return xScale(i)+padding;
+						return xScale(i)+xPadding;
 					})
 					.attr("width", xScale.bandwidth())
 					.attr("y", function(d){
-						return (yScale(d.Count));
+						return (yScale(d.Count))+10;
 					})
 					.attr("height", function(d) {
-						return h-yScale(d.Count)-padding;
+						return h-yScale(d.Count)-yPadding;
 					})
 					.attr("fill", function(d){
 							return "rgb(0,0,255)"
@@ -82,11 +87,11 @@
 								return d.Count;
 						})
 						.attr("x", function(d, i){
-							return xScale(i)+xScale.bandwidth()/2 + padding;
+							return xScale(i)+xScale.bandwidth()/2 + xPadding;
 						})
 						.attr("y", function(d, i){
 							if(d.Count > 1){
-								return yScale(d.Count) + 20;
+								return yScale(d.Count) + 30;
 							}
 						})
 						.attr("font-size", "10px")
@@ -97,15 +102,23 @@
 
 					svg.append("g")
 							.attr("class", "x axis")
-							.attr("transform", "translate( " + padding + ", " + (h-padding) + ")")
+							.attr("transform", "translate( " + xPadding + ", " + (h-yPadding+10) + ")")
 							.call(xAxis);
 
 					svg.append("g")
 							.attr("class", "y axis")
-							.attr("transform", "translate(" + padding + " ,0)")
+							.attr("transform", "translate(" + xPadding + " ,10)")
 							.call(yAxis);
 
-
+					svg.append("text")
+					    .attr("class", "y label")
+					    .attr("text-anchor", "end")
+					    .attr("y", 25)
+							.attr("x", -25)
+					    .attr("dy", "5px")
+							.attr("font-size", "15px")
+					    .attr("transform", "rotate(-90)")
+					    .text("# of Unique Kinds of Produce");
 				}
 
 
@@ -120,10 +133,10 @@
 								.transition()
 								.duration(700)
 								.attr("y", function(d){
-									return (yScale(d.Count));
+									return (yScale(d.Count))+10;
 								})
 								.attr("height", function(d) {
-									return h-yScale(d.Count)-padding;
+									return h-yScale(d.Count)-yPadding;
 								})
 								.attr("fill", function(){
 										return "rgb(0,0,255)"
@@ -137,11 +150,11 @@
 									return d.Count;
 								})
 								.attr("x", function(d, i){
-									return xScale(i)+xScale.bandwidth()/2 + padding;
+									return xScale(i)+xScale.bandwidth()/2 + xPadding;
 								})
 								.attr("y", function(d, i){
 									if(d.Count > 1){
-										return yScale(d.Count) + 20;
+										return yScale(d.Count) + 30;
 									}
 								});
 
@@ -166,10 +179,10 @@
 									.transition()
 									.duration(700)
 									.attr("y", function(d){
-										return (yScale(d.Count));
+										return (yScale(d.Count))+10;
 									})
 									.attr("height", function(d) {
-										return h-yScale(d.Count)-padding;
+										return h-yScale(d.Count)-yPadding;
 									})
 									.attr("fill", function(){
 											return "rgb(0,255,0)"
@@ -183,11 +196,11 @@
 										return d.Count;
 									})
 									.attr("x", function(d, i){
-										return xScale(i)+xScale.bandwidth()/2 + padding;
+										return xScale(i)+xScale.bandwidth()/2 + xPadding;
 									})
 									.attr("y", function(d, i){
 										if(d.Count > 1){
-											return yScale(d.Count) + 20;
+											return yScale(d.Count) + 30;
 										}
 									})
 
@@ -219,10 +232,10 @@
 										.transition()
 										.duration(700)
 										.attr("y", function(d){
-											return (yScale(d.Count));
+											return (yScale(d.Count))+10;
 										})
 										.attr("height", function(d) {
-											return h-yScale(d.Count)-padding;
+											return h-yScale(d.Count)-yPadding;
 										})
 										.attr("fill", function(){
 												return "rgb(255,0,0)"
@@ -236,11 +249,11 @@
 											return d.Count;
 										})
 										.attr("x", function(d, i){
-											return xScale(i)+xScale.bandwidth()/2 + padding;
+											return xScale(i)+xScale.bandwidth()/2 + xPadding;
 										})
 										.attr("y", function(d, i){
 											if(d.Count > 1){
-												return yScale(d.Count) + 20;
+												return yScale(d.Count) + 30;
 											}
 										})
 
@@ -265,10 +278,10 @@
 											.transition()
 											.duration(700)
 											.attr("y", function(d){
-												return (yScale(d.Count));
+												return (yScale(d.Count))+10;
 											})
 											.attr("height", function(d) {
-												return h-yScale(d.Count)-padding;
+												return h-yScale(d.Count)-yPadding;
 											})
 											.attr("fill", function(){
 													return "rgb(0,0,0)"
@@ -282,11 +295,11 @@
 												return d.Count;
 											})
 											.attr("x", function(d, i){
-												return xScale(i)+xScale.bandwidth()/2 + padding;
+												return xScale(i)+xScale.bandwidth()/2 + xPadding;
 											})
 											.attr("y", function(d, i){
 												if(d.Count > 1){
-													return yScale(d.Count) + 20;
+													return yScale(d.Count) + 30;
 												}
 											})
 
