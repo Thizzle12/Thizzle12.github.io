@@ -7,7 +7,6 @@
 		<link rel="stylesheet" type="text/css" href="ExFruit.css">
 	</head>
 	<body>
-		<h2>NYC Green Markets - Unique Produce Types</h2>
 		<p id="index0" class="selection">Fresh Fruit</p>
 		<p id="index1" class="selection">Storage Fruit</p>
 		<p id="index2" class="selection">Fresh Vegetables</p>
@@ -18,7 +17,7 @@
 			var w = 1000;
 			var h = 300;
 			var xPadding = 60;
-			var yPadding = 40;
+			var yPadding = 60;
 			var svg, xAxis, yAxis;
 			var origData;
 			var ticks = d3.range([12]);
@@ -70,7 +69,7 @@
 					})
 					.attr("width", xScale.bandwidth())
 					.attr("y", function(d){
-						return (yScale(d.Count))+10;
+						return (yScale(d.Count))+40;
 					})
 					.attr("height", function(d) {
 						return h-yScale(d.Count)-yPadding;
@@ -91,7 +90,7 @@
 						})
 						.attr("y", function(d, i){
 							if(d.Count > 1){
-								return yScale(d.Count) + 30;
+								return yScale(d.Count) + yPadding;
 							}
 						})
 						.attr("font-size", "10px")
@@ -102,23 +101,32 @@
 
 					svg.append("g")
 							.attr("class", "x axis")
-							.attr("transform", "translate( " + xPadding + ", " + (h-yPadding+10) + ")")
+							.attr("transform", "translate( " + xPadding + ", " + (h-20) + ")")
 							.call(xAxis);
 
 					svg.append("g")
 							.attr("class", "y axis")
-							.attr("transform", "translate(" + xPadding + " ,10)")
+							.attr("transform", "translate(" + xPadding + " ," + (yPadding-20) + ")")
 							.call(yAxis);
 
 					svg.append("text")
 					    .attr("class", "y label")
 					    .attr("text-anchor", "end")
 					    .attr("y", 25)
-							.attr("x", -25)
+							.attr("x", -45)
 					    .attr("dy", "5px")
 							.attr("font-size", "15px")
 					    .attr("transform", "rotate(-90)")
 					    .text("# of Unique Kinds of Produce");
+
+					svg.append("text")
+					    .attr("class", "x label")
+					    .attr("text-anchor", "middle")
+					    .attr("y", 20)
+							.attr("x", w/2)
+					    .attr("dy", "5px")
+							.attr("font-size", "30px")
+					    .text("NYC Green Markets - Unique Produce Types");
 				}
 
 
@@ -133,7 +141,7 @@
 								.transition()
 								.duration(700)
 								.attr("y", function(d){
-									return (yScale(d.Count))+10;
+									return (yScale(d.Count))+40;
 								})
 								.attr("height", function(d) {
 									return h-yScale(d.Count)-yPadding;
@@ -154,7 +162,7 @@
 								})
 								.attr("y", function(d, i){
 									if(d.Count > 1){
-										return yScale(d.Count) + 30;
+										return yScale(d.Count) + yPadding;
 									}
 								});
 
@@ -179,7 +187,7 @@
 									.transition()
 									.duration(700)
 									.attr("y", function(d){
-										return (yScale(d.Count))+10;
+										return (yScale(d.Count))+40;
 									})
 									.attr("height", function(d) {
 										return h-yScale(d.Count)-yPadding;
@@ -200,7 +208,7 @@
 									})
 									.attr("y", function(d, i){
 										if(d.Count > 1){
-											return yScale(d.Count) + 30;
+											return yScale(d.Count) + yPadding;
 										}
 									})
 
@@ -232,7 +240,7 @@
 										.transition()
 										.duration(700)
 										.attr("y", function(d){
-											return (yScale(d.Count))+10;
+											return (yScale(d.Count))+40;
 										})
 										.attr("height", function(d) {
 											return h-yScale(d.Count)-yPadding;
@@ -253,7 +261,7 @@
 										})
 										.attr("y", function(d, i){
 											if(d.Count > 1){
-												return yScale(d.Count) + 30;
+												return yScale(d.Count) + yPadding;
 											}
 										})
 
@@ -278,7 +286,7 @@
 											.transition()
 											.duration(700)
 											.attr("y", function(d){
-												return (yScale(d.Count))+10;
+												return (yScale(d.Count))+40;
 											})
 											.attr("height", function(d) {
 												return h-yScale(d.Count)-yPadding;
@@ -299,7 +307,7 @@
 											})
 											.attr("y", function(d, i){
 												if(d.Count > 1){
-													return yScale(d.Count) + 30;
+													return yScale(d.Count) + yPadding;
 												}
 											})
 
