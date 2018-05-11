@@ -1,153 +1,320 @@
 <!DOCTYPE html>
-<html>
-  <head>
-        <link rel="stylesheet" href="styles.css">
-    <meta charset="utf-8">
-    <title>Week 1</title>
-     <script src="d3.js" type="text/javascript"></script>
-  </head>
-  <body>
-    <script type="text/javascript">
-      // Your beautiful D3 code will go here
-    </script>
-        <script type="text/javascript">
-            var qA = [{q: "q", a: "a"}]
-            aA.forEach(elm => {
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Income USA</title>
+		<script type="text/javascript" src="../d3.js"></script>
+		<script src="https://unpkg.com/d3-simple-slider@0.2.1/build/d3-simple-slider.js"></script>
+	</head>
+	<body>
+    <style>
 
-            });
-          </script>
-    <div class="content">
-    <p>This is a reproduction of <a href="http://iquantny.tumblr.com/post/129373499164/this-is-quantifiably-the-best-month-to-go-to-the">http://iquantny.tumblr.com/post/129373499164/this-is-quantifiably-the-best-month-to-go-to-the</a></p>
-    </br>
-        <h1>02806 Social data analysis and visualization</h1>
-        <h1>Assignment 1</h1>
-        <div>
-            <h2>Part 1: DAOST Chapter 2 Questions</h2>
-            <ol>
-                <li>Explain the point of the jitter plot.</li>
-                <ul>
-                    <li>The point of the jitter plot is to assign each dot, in e.g. a dot plot, a random offset to the original position value. This ensures that dots with the same value will not appear “on top of each other” where only one dot will be visible. With the offset also called “jitter” the dots will cluster around the value, but all dots will be visual. The offset should be as small as possible in order for the value to be as close to the original one but not so small that you can't tell the dots apart.</li>
-                </ul>
-                <li>Explain the point of figure 2-3</li>
-                <ul>
-                    <li>The point of figure 2-3 is to show the power of bin alignments and how they can change the perception of the visualized of data even though the dataset is the same. </li>
-                </ul>
-                <li>When can KDEs be misleading?</li>
-                <ul>
-                    <li>With 3 types of different kernels, you should be sure to pick the right one. The text says that “Because it is so easy to work with, the Gaussian kernel is the most widely used” but since a Gaussian kernel is “nonzero everywhere but negligibly small outside a limited domain” this can be misleading when working with specific values.
-                            Using the Gaussian kernel on specific values will make the bins appear as non-zero even though they might be zero and with a large bandwidth the Gaussian and Epanechnikov kernel will create a peak in the middle even though it might contain data peaking elsewhere in the bandwidth. So KDE is misleading when you want to allocate specific values of a datapoint and not just how likely they are to occur in a given bandwidth.
-                            One of the disadvantages of using KDE is that it is hard to compare two KDE-graphs with each other as it is hard for the human eye to compare the size of areas.
-                            </li>
-                </ul>
-                <li>I've discussed some strengths of the CDF - there are also weaknesses.<br>
-                    Janert writes "[CDFs] have less intuitive appeal than histograms of KDEs". What does he mean by that?</li>
-                <ul>
-                    <li>The histograms are very intuitive as they show exactly how much data is at a given point, and it shows exactly how the data is distributed. The KDE is fairly intuitive as it shows an estimation of how the data is distributed and follows the histogram in the visualization. The CDF is not as intuitive in the visualization. The CDF shows how many percent of the data is behind a given point in the x-axis, and makes it harder to see the exact distribution of the data, when looking at it. </li>
-                </ul>
-                <li>What is a Quantile plot? What is it good for?</li>
-                <ul>
-                    <li>A quantile plot is a switched CDF plot, so the x and y axes of the CDF plot has switched places. This can, for some datasets, make it easier to visualize each bins corresponding value of the x and y axis - even though the data is the same as in a CDF plot.
-                        </li>
-                </ul>
-                <li>How is a Probability plot defined? What is it useful for? Have you ever seen one before?</li>
-                <ul>
-                    <li>A probability plot is “a way to compare a set of points directly against a theoretical distribution and, in the process, read off the estimates for all the parameters required”.
-                            It is useful if you want to see if a whether a set of points behaves according to Gaussian distribution because it is easy to spot deviations when all the points are lined up and should be visualised as a straight line if they behaves according to a Gaussian distribution. Furthermore it makes it easy to read estimates of mean and standard deviation from the graph.
-                            </li>
-                </ul>
-                <li>One of the reasons I like DAOST is that Janert is so suspicious of mean, median, and related summary statistics.<br>
-                    Explain why one has to be careful when using those - and why visualization of the full data is always better.</li>
-                <ul>
-                    <li>Summary statistics are a form of generalisation from the full dataset, and while they aim to communicate the largest amount of information from the data as possible in a simple form, they will always contain less information than the full data set. A visualisation of the full data is therefore more descriptive than summary statistics.
-                            In other words; If you want to give a quick and simple overview of your data, summary statistics could be a way to go about it, but you will always lose some information in the process, thus visualisation of the full data will always be better.</li>
-                </ul>
-                <li>I love box plots. When are box plots most useful?</li>
-                <ul>
-                    <li>Box plots are great for showing a comparison of a variable distribution across different categories. They can be very useful when you want to display variable’s location and spread in a simple and quick manner. It is also useful for giving an overview of the shape of a distribution, as it gives an insight into the symmetry and skewness of the dataset, as well as acknowledging potential outliers.</li>
-                </ul>
-                <li>The book doesn't mention violin plots. Are those better or worse than box plots? Why?</li>
-                <ul>
-                    <li>Violin plots are very similar to box plots, but while containing the same amount of information as box plots, they additionally describe the probability density of the data for different values. Thus they show the full distribution of the data, rather than just summary statistics, which is the case for box plots. They are therefore a better version of box plots, in that they are more informative; conveying the same information as box plots, plus additional information. They can therefore be more useful when visualising multimodal data, as the multiple peaks of the data would actually be presented compared to the box plots, where this would not be the case.
-                        </li>
-                </ul>
-            </ol>
-        </div>
-        <div>
-            <h2>Part 2: DAOST Chapter 3 Questions</h2>
-            <ol>
-                <li>Looking at Fig 3-1, Janert writes "the data itself shows clearly that the amount of random noise in the data is small".<br>What do you think his argument is?</li>
-                <ul>
-                    <li>You can see a clear pattern in the data plotted in figure 3.1 and that is the reason you can say that the amount of random noise in the data is small.</li>
-                </ul>
-                <li>Can you think of a real-world example of a multivariate relationship like the one in Fig 3-3 (lower right panel)?</li>
-                <ul>
-                    <li>An example could be some data describing the cholesterol, blood pressure, weight and eating habits of some subjects. You could then investigate the relationship between the three measures of health and eating habits to analyse the relationship between health and eating habits.</li>
-                </ul>
-                <li>What are the two methods Janert metions for smoothing noisy data? Can you think of other ones?</li>
-                <ul>
-                    <li>Splines and LOESS (local regression) are the two methods for smoothing noisy data that Janert mentions.
-                            Another method with a similar purpose could be Kernel Smoother, where you introduce kernels and you use a weighted average of the neighbouring data points where the weight is determined by how far from the center of the defined kernel the data points lie.</li>
-                </ul>
-                <li>What are residuals? Why is it a good idea to plot the residuals of your fit?</li>
-                <ul>
-                    <li>Residuals are measure of deviation from an observed value and its theoretical value. The residuals can therefore be of interest along with the data plot, as it describes how big the difference is between the observed and the estimated values.
-                         An example of a theoretical/estimated value, would be that of the sample mean. In this case, the residual for each individual data point would be its difference from the sample mean. It would therefore be interesting to include these in the plot, as they provide an idea of how much noise there is in the data and how much of an outlier each datapoint is.</li>
-                </ul>
-                <li>Explain the point of the smooth tube in figure 3-7.</li>
-                <ul>
-                    <li>The purpose of the smooth tube is to smoothen out the fit, by disregarding outliers (data points outside the dotted line of the smooth tube) in order to avoid overfitting and to generate a more generic and less “extreme” fit.</li>
-                </ul>
-                <li>What kind of relationships will a semi-log plot help you discover?</li>
-                <ul>
-                    <li>The semi-log plots help you discover the size of the relative changes. One axis is plotted on a logarithmic scale (with the other one being linear for instance), and it is therefore useful when one variable is very limited in range and the other one covers a relatively large range of values. Instead of the plot being very flat (or tall) making it difficult to make out the relationship, the plot will then instead be normalised to make it easier to see the relationship.</li>
-                </ul>
-                <li>What kind of functions will loglog plots help you see?</li>
-                <ul>
-                    <li>loglog plots uses logarithmic scales on each axis of the graph, such that relationships between e.g. monomials (polynomials with only one term) will look like straight lines instead, ultimately making it easier to analyse the relationships and for instance estimating parameters.</li>
-                </ul>
-                <li>What the h#ll is banking and what element from our visual system does it use to help us see patterns?<br>What are potential problems with banking?</li>
-                <ul>
-                    <li>The idea behind banking is to change the aspect ratio so that most slopes are at a 45 degree angle. The potential problems with banking is, that graphs with highly skewed aspect ratios can be very hard (if not impossible) to read, which will render them useless.</li>
-                </ul>
-                <li>I think figure 3-14 makes an important point about linear fits that is rarely made. What is it?</li>
-                <ul>
-                    <li>The point is that linear regression is not always the best fit as you will get two different fits depending on if you regress x on y or you do it the other way around and regress y on x. Linear regression is just often a faithful representation of the of the output.</li>
-                </ul>
-                <li>Summarize the discussion of Graphical Analysis and Presentation Graphics on pp. 68-69.</li>
-                <ul>
-                    <li>The intention with the discussion is to distinct between analysing and presenting data in graphs. The idea is that when you analyse data through graphs, you should not waste time on making it look nice or make non-functional additions to the visualization of the data, as the analysis of the data is the important factor, and it might be a waste of time to add extra visuals, because there is a chance that you have to dump or remake the graph because of a bad representation. When presenting the data in graphs on the other hand, the analysis is over and you have to visualize it in a proper manner, which means you then need all of the non-functional visualizations, such as labels, on the axes, text should be self-explanatory, appropriate plot-ranges, appropriate amount of text and the graphs needs to be formatted properly.</li>
-                </ul>
-            </ol>
-        </div>
+    .selected {
+      fill: red;
+      stroke: brown;
+    }
 
-        		<div class="exercise">
-        			<h2>Part 3: Viz 1</h2>
-        			<p id="index0" class="selection">Fresh Fruit</p>
-        			<p id="index1" class="selection">Storage Fruit</p>
-        			<p id="index2" class="selection">Fresh Vegetables</p>
-        			<p id="index3" class="selection">Storage Vegetables</p>
-        			<svg id="fruit-svg"></svg>
-        			<div>
-        				<script type="text/javascript" src="fruitandvegetables.js"></script>
-        			</div>
-        			<p class="plot-description">The plot shows how many types of fruits and vegetables are available by month, and whether it is fresh or from storage. </p>
-        		</div>
+		#map{
+			display:inline-block;
+		}
 
-        		<div class="exercise">
-        			<h2>Part 4: Viz 2</h2>
-        			<p id="men" class="clickable">Men</p>
-        			<p id="women" class="clickable">Women</p>
-        			<p id="all" class="clickable">Both</p>
-        			<svg id="boston-svg"></svg>
-        			<div>
-        				<script type="text/javascript" src="boston.js"></script>
-        			</div>
-        			<p class="plot-description">The plot shows the time of the winner of the Boston Marathon every year since 1897.</p>
-        			<p class="plot-description"> The blue crosses are the mens Marathon and the red dots are the womens Marathon</p>
-        		</div>
+		#bar-chart{
+			display:inline-block;
+		}
 
-        	</body>
+    </style>
 
+    <div class="row align-items-center">
+      <div class="col-sm-2">
+        <p id="value3"></p>
+      </div>
+      <div class="col-sm">
+        <div id="slider"></div>
+      </div>
     </div>
-  </body>
+    <script type="text/javascript">
+
+		var dataset, bData;
+		var padding = 50;
+		var bw = 800;
+		var bh = 400;
+		var h2 = 500;
+		var w2 = 800;
+		var year = '2007';
+		var minValue, maxValue;
+		var barPadding = 1;
+    var projection = d3.geoAlbersUsa()
+                        .translate([w2/2, h2/2])
+                        .scale([1000]);
+
+    var path = d3.geoPath(projection)
+    var svg;
+    var color = d3.scaleOrdinal(d3.schemeCategory10);
+		var barDataset, xScale, yScale, xAxis, yAxis;
+
+
+		var mapsvg = d3.select("body")
+			.append("svg")
+			.attr("id", "map")
+			.attr("height", h2)
+			.attr("width", w2)
+      .attr("background" , "blue");
+
+		var barSvg = d3.select("body")
+										.append("svg")
+										.attr("id", "bar-chart")
+										.attr("height", bh)
+										.attr("width", bw)
+
+		var sliderData = d3.range(0, 11).map(function (d) { return new Date(2007 + d, 10, 3); });
+		var slider = d3.sliderHorizontal()
+	 	 .min(d3.min(sliderData))
+	 	 .max(d3.max(sliderData))
+	 	 .step(1000 * 60 * 60 * 24 * 365)
+	 	 .width(400)
+	 	 .tickFormat(d3.timeFormat('%Y'))
+	 	 .tickValues(sliderData)
+	 	 .on('onchange', val => {
+
+	 		 d3.select("p#value3").text(d3.timeFormat('%Y')(val));
+			 year = d3.timeFormat('%Y')(val);
+			 updatePaths();
+
+	 	 });
+
+	  var g = d3.select("div#slider").append("svg")
+	 	 .attr("width", 500)
+	 	 .attr("height", 100)
+	 	 .append("g")
+	 	 .attr("transform", "translate(30,30)");
+
+	  g.call(slider);
+
+	  d3.select("p#value3").text(d3.timeFormat('%Y')(slider.value()));
+	  d3.select("a#setValue3").on("click", () => slider.value(new Date(2007, 10, 17)));
+
+
+		function makeVis(){
+
+
+			bData = barDataset.filter(function(d){ // filter rows so only lineCode 3 persists
+				if(d.LineCode == 3){
+					return true;
+				}
+				return false;
+			});
+			xScale = d3.scaleLinear()
+										.domain([0, 50])
+										.range([0, bw])
+
+			yScale = d3.scaleLinear()
+								.domain([0, d3.max(bData, function(d){
+									return selectYear(year, d);
+								})])   // values between 0 and 100
+								 .range([ bh+20, padding+20]);
+
+			yAxis = d3.axisLeft()
+					.tickSize(0, 5)
+					.scale(yScale);
+
+			// define the y axis
+			xAxis = d3.axisBottom()
+					 .tickSize(5, 0)
+					 .tickFormat(d3.timeFormat("%d/%m/%y"))
+					 .scale(xScale);
+			// console.log(d3.max(bData, function(d){ return selectYear(year, d)}))
+
+			barSvg.selectAll("rect")
+						.data(bData)
+						.enter()
+						.append("rect")
+						.attr("x", function(d, i){
+							  return i*((bw-padding)/bData.length)+padding;
+						})
+						.attr("y", function(d){
+							  return yScale(selectYear(year, d))-padding;
+						})
+						.attr("width", (bw/bData.length-3))
+						.attr("height", function(d, i){
+							return bh-yScale(selectYear(year, d));
+						});
+
+			var ticks = bData.map(function(d) { return d.GeoName; });
+			var x0 = d3.scaleBand()
+					.rangeRound([0, bw-30])
+			x0.domain(bData.map(function(d) { return d.GeoName; }));
+
+			barSvg.append("g")
+						.attr("class", "axis")
+						.attr("transform", "translate(" + 40 + ","+ (bh-padding) +")")
+						.call(d3.axisBottom(x0))
+						.selectAll("text")
+						.attr("transform","rotate(-50)")
+						.attr("text-anchor","end");;
+
+			barSvg.append("g")
+          .attr("class", "axis yaxis")
+					.attr("transform", "translate("+ 40 + ", " + -padding +  ")")
+          .call(yAxis)
+        	.append("text")
+          .attr("fill", "#000")
+          .attr("font-weight", "bold")
+          .attr("text-anchor", "start")
+          .text("Per capita personal income (dollars)");
+
+
+
+		}
+
+		function coloringStates(stateIncome){
+			return ((stateIncome-minValue)*255/(maxValue-minValue));
+		}
+
+		function selectYear(newYear, data){
+			switch(newYear){
+				case '2007':
+					return data.y2007;
+					break;
+				case '2008':
+					return data.y2008;
+					break;
+				case '2009':
+					return data.y2009;
+					break;
+				case '2010':
+					return data.y2010;
+					break;
+				case '2011':
+					return data.y2011;
+					break;
+				case '2012':
+					return data.y2012;
+					break;
+				case '2013':
+					return data.y2013;
+					break;
+				case '2014':
+					return data.y2014;
+					break;
+				case '2015':
+					return data.y2015;
+					break;
+				case '2016':
+					return data.y2016;
+					break;
+				case '2017':
+					return data.y2017;
+					break;
+				default:
+					return data.y2017;
+					break;
+			}
+		}
+
+		function updatePaths(){
+
+			maxValue = 0;
+			minValue = 0;
+			var barChartData = [];
+			for(var i = 0; i < dataset.length; i++){
+			 if(dataset[i].LineCode === "3"){
+				 if(maxValue < selectYear(year, dataset[i])){
+					 maxValue = selectYear(year, dataset[i]);
+				 }if(minValue > selectYear(year, dataset[i])){
+					 minValue = selectYear(year, dataset[i]);
+				 }
+			 }
+		 	}
+			 for(var i = 0; i < dataset.length; i++){
+				 if(dataset[i].LineCode === "3"){
+
+					 barChartData.push(selectYear(year, dataset[i]));
+					 // console.log(dataset[i].GeoName)
+					 var stateName = dataset[i].GeoName;
+					 if(stateName.indexOf(' ') >= 0){
+						 stateName = stateName.replace(/\s/g, "_");
+					 }
+					 mapsvg.select("#" + stateName)
+							 .data(dataset)
+							 .attr("fill", "rgb(0, " + coloringStates(selectYear(year, dataset[i])) + ", 0)")
+							 .append("title");
+
+
+						mapsvg.select("#" + stateName)
+									.select("title")
+									.text(function(d){
+	 								 return "State: " + dataset[i].GeoName + ", Average Income: " + selectYear(year, dataset[i]) + " $"
+	 							 });
+
+
+				 }
+			 }
+			 updateBarChart();
+		}
+
+		function updateBarChart(){
+
+		yScale = d3.scaleLinear()
+							.domain([0, d3.max(bData, function(d){
+								return selectYear(year, d);
+							})])   // values between 0 and 100
+							 .range([ bh+20, padding+20]);
+
+		 yAxis = d3.axisLeft()
+				 .tickSize(0, 5)
+				 .scale(yScale);
+
+			barSvg.selectAll("rect")
+						.data(bData)
+						.attr("y", function(d){
+							  return yScale(selectYear(year, d))-padding;
+						})
+						.attr("height", function(d, i){
+							return bh-yScale(selectYear(year, d));
+						});
+
+			barSvg.select(".yaxis")
+					.attr("transform", "translate("+ 40 + ", " + -padding +  ")")
+          .call(yAxis)
+
+		}
+
+      d3.json("USA.json", function(json){
+        mapsvg.selectAll("path")
+            .data(json.features)
+            .enter()
+            .append("path")
+						.attr("id", function(d){
+							if(d.properties.name.indexOf(' ') >= 0){
+								return d.properties.name.replace(/\s/g, "_");
+							}else{
+								return d.properties.name
+							}
+						})
+						.attr("class", "state")
+            .attr("d", path)
+            .attr("z-index", 1)
+
+
+
+      });
+
+
+
+			d3.csv("data.csv", function(data){
+				dataset = data;
+				barDataset = data;
+
+				makeVis();
+				updatePaths();
+
+
+			});
+
+
+
+		</script>
+
+
+	</body>
 </html>
