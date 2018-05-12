@@ -36,13 +36,26 @@
 
 		var dataset, bData;
 		var padding = 50;
+		var pPadding = 20;
 		var bw = 800;
 		var bh = 400;
 		var h2 = 500;
 		var w2 = 800;
+		var pw = 500;
+		var ph = 500;
+		var outerRadius = pw/3-(2*padding);
+		var innerRadius = pw/6;
+		var category = [ [], [], [], [], [], [] ];
+		var percent = [];
+		var us = [];
+		var arcs;
+		var arc = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius);
+		var pie = d3.pie();
+		var color = d3.scaleOrdinal(d3.schemeCategory10);
 		var year = '2007';
 		var minValue, maxValue;
 		var barPadding = 1;
+
     var projection = d3.geoAlbersUsa()
                         .translate([w2/2, h2/2])
                         .scale([1000]);
@@ -64,7 +77,13 @@
 										.append("svg")
 										.attr("id", "bar-chart")
 										.attr("height", bh)
-										.attr("width", bw)
+										.attr("width", bw);
+
+		var pieSvg = d3.select("body")
+			.append("svg")
+			.attr("id", "pie-chart")
+			.attr("height", ph)
+			.attr("width", pw);
 
 		var sliderData = d3.range(0, 11).map(function (d) { return new Date(2007 + d, 10, 3); });
 		var slider = d3.sliderHorizontal()
@@ -93,9 +112,23 @@
 	  d3.select("p#value3").text(d3.timeFormat('%Y')(slider.value()));
 	  d3.select("a#setValue3").on("click", () => slider.value(new Date(2007, 10, 17)));
 
+		function makeDataForPieChart(){
+			us = [];
+			for (let i = 0; i < dataset.length; i++) {
+				const elm = dataset[i];
+					if(elm.LineCode ==="2"){
+						people = elm.y2017
+					}
+					else if(elm.LineCode ==="3"){
+						name = elm.GeoName;
+						income = selectYear(year, elm);
+						us.push({name: name, people: people, income: income});
+					}
+				};
+		}
 
 		function makeVis(){
-
+			makeDataForPieChart();
 
 			bData = barDataset.filter(function(d){ // filter rows so only lineCode 3 persists
 				if(d.LineCode == 3){
@@ -162,6 +195,64 @@
           .attr("text-anchor", "start")
           .text("Per capita personal income (dollars)");
 
+		calCategory();
+		var rects = pieSvg.selectAll("rect")
+										.data(category)
+										.enter()
+										.append("rect")
+										.attr("class", "rectangle")
+										.attr("width", pPadding)
+										.attr("height", pPadding)
+										.attr("x", pw-pw/6-10*pPadding)
+										.attr("y", function(d, i){
+											return pPadding * 2 * i+pPadding;
+										})
+										.attr("fill", function(d,i){
+											return color(i);
+										});
+
+		pieSvg.selectAll("text")
+					.data(category)
+					.enter()
+					.append("text")
+					.text(function(d, i){
+							return "# States with income category: " + i + ": " + d.length;
+					})
+					.attr("x", pw-pw/6-9*pPadding)
+					.attr("y", function(d, i){
+						return pPadding * 2 * i+15+pPadding;
+					})
+					.attr("font-size", "15px")
+					.attr("fill", "black")
+					.attr("font-family", "sans-serif")
+					.attr("text-anch2or", "middle");
+
+		arcs = pieSvg.selectAll("g.arc")
+									.data(pie(percent))
+									.enter()
+									.append("g")
+									.attr("class", "arc")
+									.attr("transform", "translate(" + (outerRadius+padding) + ", " + (outerRadius+padding) + ")");
+
+
+		arcs.append("path")
+				.attr("class", "piearcs")
+				.attr("fill", function(d,i){
+					return color(i);
+				})
+				.attr("d", arc);
+
+		arcs.append("text")
+				.attr("transform", function(d){
+					return "translate(" + arc.centroid(d) + ")";
+				})
+				.attr("text-anchor", "middle")
+				.text(function(d, i){
+					return d.value + "%";
+				})
+				.attr("font-size", "10")
+				.attr("fill", "white");
+
 
 
 		}
@@ -212,6 +303,31 @@
 		}
 
 		function updatePaths(){
+			makeDataForPieChart();
+			calCategory();
+
+			arcs.data(pie(percent));
+
+			arcs.select("path")
+					.attr("class", "piearcs")
+					.attr("fill", function(d,i){
+						return color(i);
+					})
+					.attr("d", arc);
+
+			arcs.select("text")
+					.attr("transform", function(d){
+						return "translate(" + arc.centroid(d) + ")";
+					})
+					.text(function(d, i){
+						return d.value + "%";
+					})
+
+			pieSvg.selectAll("text")
+						.data(category)
+						.text(function(d, i){
+								return "# States with income category: " + i + ": " + d.length;
+						})
 
 			maxValue = 0;
 			minValue = 0;
@@ -277,6 +393,37 @@
 					.attr("transform", "translate("+ 40 + ", " + -padding +  ")")
           .call(yAxis)
 
+		}
+
+		function calCategory(){
+			category = [ [], [], [], [], [], [] ];
+			for (let i = 0; i < us.length; i++) {
+				const state = us[i];
+				if(parseInt(state.income) > 60000){
+					category[0].push(state.name)
+				}
+				else if (parseInt(state.income) > 55000){
+					category[1].push(state.name)
+				}
+				else if (parseInt(state.income) > 50000) {
+					category[2].push(state.name)
+				}
+				else if (parseInt(state.income) > 45000){
+					category[3].push(state.name)
+				}
+				else if (parseInt(state.income) > 40000){
+					category[4].push(state.name)
+				}
+				else{
+					category[5].push(state.name)
+				}
+				};
+
+				percent = [];
+		    for (let i = 0; i < category.length; i++) {
+		      const cat = category[i];
+		      percent.push(100 / us.length * cat.length);
+		    }
 		}
 
       d3.json("USA.json", function(json){
