@@ -136,9 +136,10 @@
 				}
 				return false;
 			});
-			xScale = d3.scaleLinear()
-										.domain([0, 50])
-										.range([0, bw])
+			xScale = d3.scaleBand()
+										.domain(d3.range([50]))
+										.rangeRound([0,bw-60])
+										.paddingInner(0.05);
 
 			yScale = d3.scaleLinear()
 								.domain([0, d3.max(bData, function(d){
@@ -150,50 +151,71 @@
 					.tickSize(0, 5)
 					.scale(yScale);
 
-			// define the y axis
-			xAxis = d3.axisBottom()
-					 .tickSize(5, 0)
-					 .tickFormat(d3.timeFormat("%d/%m/%y"))
-					 .scale(xScale);
-			// console.log(d3.max(bData, function(d){ return selectYear(year, d)}))
 
 			barSvg.selectAll("rect")
 						.data(bData)
 						.enter()
 						.append("rect")
+						.attr("class", "income-bar")
 						.attr("x", function(d, i){
-							  return i*((bw-padding)/bData.length)+padding;
+							return xScale(i)+60;
 						})
 						.attr("y", function(d){
 							  return yScale(selectYear(year, d))-padding;
 						})
-						.attr("width", (bw/bData.length-3))
+						.attr("width", (bw/bData.length-2))
 						.attr("height", function(d, i){
 							return bh-yScale(selectYear(year, d));
-						});
+						})
+						.attr("fill", function (d){
+							"rgb(0, " + coloringStates(selectYear(year, d)) + ", 0)"
+						})
+						.append("title")
+						.text(function(d, i){
+						 return "Average personal Income: " + selectYear(year, d) + " $"
+					 });
 
 			var ticks = bData.map(function(d) { return d.GeoName; });
-			var x0 = d3.scaleBand()
-					.rangeRound([0, bw-30])
-			x0.domain(bData.map(function(d) { return d.GeoName; }));
+			// var x0 = d3.scaleBand()
+			// 		.rangeRound([0, bw-40])
+			// x0.domain(bData.map(function(d) { return d.GeoName; }));
+
+			xAxis = d3.axisBottom()
+								.scale(xScale)
+								.ticks(50);
 
 			barSvg.append("g")
+						.data(bData)
 						.attr("class", "axis")
-						.attr("transform", "translate(" + 40 + ","+ (bh-padding) +")")
-						.call(d3.axisBottom(x0))
+						.attr("transform", "translate(" + 60 + ","+ (bh-80) +")")
+						.call(xAxis)
 						.selectAll("text")
+						.text(function(d){
+			          return ticks[d];
+			      })
 						.attr("transform","rotate(-50)")
-						.attr("text-anchor","end");;
+						.attr("text-anchor","end");
+
+				barSvg.selectAll("tick")
+		      .data(bData)
+		      .enter()
+		      .text(function(d){
+		          return d.GeoName;
+		      })
 
 			barSvg.append("g")
           .attr("class", "axis yaxis")
-					.attr("transform", "translate("+ 40 + ", " + -padding +  ")")
+					.attr("transform", "translate("+ 60 + ", " + -80 +  ")")
           .call(yAxis)
-        	.append("text")
-          .attr("fill", "#000")
-          .attr("font-weight", "bold")
-          .attr("text-anchor", "start")
-          .text("Per capita personal income (dollars)");
+
+
+		barSvg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0)
+      .attr("x",0 - (bh / 2)+30)
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Per capita personal income (dollars)");
 
 		calCategory();
 		var rects = pieSvg.selectAll("rect")
@@ -216,7 +238,7 @@
 					.enter()
 					.append("text")
 					.text(function(d, i){
-							return "# States with income category: " + i + ": " + d.length;
+							return "# States with income category: " + (i+1) + ": " + d.length;
 					})
 					.attr("x", pw-pw/6-9*pPadding)
 					.attr("y", function(d, i){
@@ -232,15 +254,18 @@
 									.enter()
 									.append("g")
 									.attr("class", "arc")
-									.attr("transform", "translate(" + (outerRadius+padding) + ", " + (outerRadius+padding) + ")");
-
+									.attr("transform", "translate(" + (outerRadius+padding) + ", " + (outerRadius+padding) + ")")
 
 		arcs.append("path")
 				.attr("class", "piearcs")
 				.attr("fill", function(d,i){
 					return color(i);
 				})
-				.attr("d", arc);
+				.attr("d", arc)
+				.append("title")
+				.text(function(d,i){
+					return incomeClass(i);
+				});
 
 		arcs.append("text")
 				.attr("transform", function(d){
@@ -302,6 +327,31 @@
 			}
 		}
 
+		function incomeClass(i){
+			var incomeClass;
+			switch(i){
+				case 0:
+					incomeClass = ">= 60000"
+					break;
+				case 1:
+					incomeClass = "55000 - 59999"
+					break;
+				case 2:
+					incomeClass = "50000 - 54999"
+					break;
+				case 3:
+					incomeClass = "45000 - 49999"
+					break;
+				case 4:
+					incomeClass = "40000 - 44999"
+					break;
+				case 5:
+					incomeClass = "0 - 40000"
+					break;
+			}
+			return incomeClass;
+		}
+
 		function updatePaths(){
 			makeDataForPieChart();
 			calCategory();
@@ -313,7 +363,11 @@
 					.attr("fill", function(d,i){
 						return color(i);
 					})
-					.attr("d", arc);
+					.attr("d", arc)
+					.select("title")
+					.text(function(d,i){
+						return incomeClass(i);
+					});;
 
 			arcs.select("text")
 					.attr("transform", function(d){
@@ -326,7 +380,7 @@
 			pieSvg.selectAll("text")
 						.data(category)
 						.text(function(d, i){
-								return "# States with income category: " + i + ": " + d.length;
+								return "# States with income: " + incomeClass(i) + ": " + d.length;
 						})
 
 			maxValue = 0;
@@ -374,7 +428,7 @@
 							.domain([0, d3.max(bData, function(d){
 								return selectYear(year, d);
 							})])   // values between 0 and 100
-							 .range([ bh+20, padding+20]);
+							 .range([ bh, padding+20]);
 
 		 yAxis = d3.axisLeft()
 				 .tickSize(0, 5)
@@ -383,14 +437,21 @@
 			barSvg.selectAll("rect")
 						.data(bData)
 						.attr("y", function(d){
-							  return yScale(selectYear(year, d))-padding;
+							  return yScale(selectYear(year, d))-80;
 						})
 						.attr("height", function(d, i){
 							return bh-yScale(selectYear(year, d));
-						});
+						})
+						.attr("fill", function (d){
+							return "rgb(0, " + coloringStates(selectYear(year, d)) + ", 0)"
+						})
+						.select("title")
+						.text(function(d, i){
+						 return "Average personal Income: " + selectYear(year, d) + " $"
+					 });;
 
 			barSvg.select(".yaxis")
-					.attr("transform", "translate("+ 40 + ", " + -padding +  ")")
+					.attr("transform", "translate("+ 60 + ", " + -80 +  ")")
           .call(yAxis)
 
 		}
