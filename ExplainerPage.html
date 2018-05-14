@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>US Income</title>
+		<script type="text/javascript" src="../d3.js"></script>
+	</head>
+	<body>
+    <style></style>
+
+    <h2>Motivation</h2>
+      <h4>Introduction to Dataset</h4>
+        <p>Our dataset contains information about each state of the US, more specifically an average of each state’s personal income, as well as the population of the state. This information is given in 10 different columns, each representing a year from the last 10 years (2007 - 2017).</p>
+      <h4>Justification for Dataset Choice</h4>
+        <p>We were looking for quite some time for at dataset which could provide us with the basic information that we wanted and after finding this dataset we knew we had found the one we wanted to use.  It was already nice and clean from the start without too many rows and columns which wouldn’t be used, so not much preprocessing was needed in order to get the information we were interested in using for telling the story.</p>
+      <h4>Our Goal</h4>
+        <p>We wanted our end user to experience and explore how the wealth of the different states in the US has changed during the past 10 years.</p>
+    <h2>Basic stats</h2>
+      <h4>Data Cleaning and Preprocessing</h4>
+        <p>Regarding data cleaning and preprocessing, we were quite lucky to have found a great source, where we could select exactly the part of the data we wanted. We here filtered out parts of the US that wasn’t one of the 50 official states and chose only the years from 2007 to 2017. The data set was downloaded in the csv file format, and though information about population size and total (cumulatively) personal income was still technically part of the dataset, we ended up filtering this out in the script. By looking only at rows 2-151 (indexed at 1) and skipping everyone with LineCode 1 or 2, and finally looking just at the columns 5-15 (the 10 years) we had the final dataset.</p>
+      <h4>Results of Exploratory Data Analysis</h4>
+        <p>The dataset explains 50 states, with 3 values for each, for each year from 2007 to 2017. Including text descriptions such as row and columns names/IDs, we have 151 rows and 15 columns, whereof 1 row is dedicated to text descriptions and 10 columns are the values from year to year. The file consists of 2265 values, whereof 1500 describe each year, and 500 describe only the Per Capita Personal Income for each year in each state. The size of the csv file is 22 KB, and it follows the csv-format; separating each value with commas and enclosing strings in quotation marks. </p>
+    <h4>Design Space Analysis</h4>
+      <p>The Design Space Analysis to follow, is conducted using terms and concepts from the article Narrative Visualization: Telling Stories with Data by Edward Segel and Jeffrey Heer.</p>
+      <h4>Genre</h4>
+      <p>Our narrative visualization is a multi-view visualization that falls within the genre of a partitioned poster, since we have several individual parts that each contribute to the same narrative in their own way; each part can stand alone, but together they are able to tell the story better than the sum of the parts.
+Its closest relative within the genres of narrative visualization, is that of an annotated graph, but rather than focusing on a single part that utilizes high levels of complexity and descriptions to tell a story, we instead focus on a few simpler parts that combined gives the viewer a more overarching and general understanding of the story we aim to tell.
+The story of the income development in each US state over a period of 10 years can quickly become very complicated and boring if one chooses to go into too many details, but by instead sticking to a genre which primary competence is a great overview of the story as a whole, we keep the user interested throughout the presentation and ensure that they at least leave with something.</p>
+      <h4>Visual Narrative</h4>
+        <p>In regards to visual structuring, we used a timeline slider to help communicate the overall structure of the narrative to the viewer. Additionally we have placed the map part of the visualization to the very left of the page, making this a more natural starting point (for viewers of a left-to-right reading culture) in the narrative. This is due to the fact that we find the map the best part at giving the viewer a quick idea of what they can expect from the rest of the page.
+
+For highlighting, we used green as the primary color of the visualization to make an association to money (at least American Dollar bills), since it’s a story about the American economy. We used brighter shades of green to indicate more wealth, and overall we have just used bright eye-catching colors to captivate the viewer and simultaneously provide clear differentiations between classes and categories. On the timeline slider, we have also highlighted the selected year, in order to emphasize what data is being described.
+
+Finally, talking transition guidance, we haven’t really used anything, as out page lacks any form of moving between visual scenes or anything of the like.
+</p>
+      <h4>Narrative Structure</h4>
+        <p>If we first take a look at the ordering, we used the sequential ordering of the different parts to force a natural start at the map, much like what was further explained above, in regards to visual structuring. Other than that, the viewer is free to explore the narrative in whatever way they please, with the timeline slider practically placed at the very top to ensure visibility.
+
+Secondly, for interactivity, we used the timeline slider to make the viewer and user able to explore the dataset more freely and watch the changes dynamically. This way we put the user in charge of how the chronological dataset should be explored, allowing them to get the full potential of the story, since they can go back and forth however way they please. The user is also able to hover their mouse over each state on the map, as well as each bar in the barchart to gather more information about it.
+
+Finally, in regards to messaging, we used only a few labels and descriptions, as we found that a selection of simpler more broad visualization would allow a wider range of viewer to get interested and captivated. While descriptive text and annotations might increase the potential information gathered from the visualization, our story involved a more simple concept, that we found better described using a low level of complexity. An example of a seemingly hidden label, is that of the hovering over each state on the map as well as the bars in the barchart.
+</p>
+    <h2>Visualizations</h2>
+      <h4>Description</h4>
+        <p>We have chosen to visualize our story by three main components, a geoJSON map, a bar chart and a donut chart.
+The geoJSON map, is a map of the US and is used to visualize the different categories of average personal income pr. citizen (for the given year), the states belong to. This is done by indicating each category with a specific contrast of green where the scale goes from light green to dark, where the darker green indicates that the state has a lower average personal income pr. citizen, than a lighter green.
+
+The bar chart specifies what the average personal income (for the given year) for each state is. The bar chart makes it easy to locate the state by name, as well as what that average income is compared to other states.
+
+The donut chart shows the percentage distribution of each income category in the US along with the number of how many states each category contains. This chart makes it easy to understand how the category distribution changes over time and is good for getting a quick overview of the wealth distribution in the US.
+
+Finally we have a slider which binds it all together and makes you select the year you are interested in exploring. Once the year is selected, our visualizations changes in order to express the data for regarding that year.
+</p>
+      <h4>Justification</h4>
+        <p>These visualizations are right for the story we want to tell because they each have their advantages of visualize and express an aspect of how the average personal income is distributed for each state across the US. It also makes it easy for the user to explore and learn how the income distribution has changed during the last 10 years by changing the years on the slider and see how the visualizations adapt.</p>
+    <h2>Discussion</h2>
+      <h4>What went well?</h4>
+        <p>We have successfully implemented the 3 types of visualization we wanted. They are each tied up to the slider, which describes what year the user is exploring. These visualization should express a story about the average personal income distribution for each state, across the US and we believe that the story is expressed successfully by our visualizations.</p>
+      <h4>What is still missing and what could be improved?</h4>
+        <p>Our visualizations are not missing any parts that we originally would want, however a few things could improve our solution and perhaps paint a clearer image of the story that we want to tell.
+
+It would have been nice to have labels on hover on the donut chart, expressing which states the category contains.
+Furthermore we considered to have some more interactions through the map, where each state would be clickable and would change the bar chart diagram to show the income for each year of that state.
+These are the most obvious improvements that we could think off, which could enhance the experience for the user as well as improve the story that we wanted to tell.
+
+Given more time these improvements could have been implemented and if you where to work on this assignment in the future perhaps some new visualization which hasn't been introduced in this course could have come to play.
+</p>
+  <h2>Contributions</h2>
+    <p>While we have all worked together consistently since the very start of our education, and thus have become great at contributing equally to all parts of a project, we started this particular project by assigning a main responsible for each part, in order to speed up the development process.
+Theis has been the main responsible for the map part, as well as the interactivity of the visualization.
+Henrik has been the main responsible for the donut-chart part of the visualization, as well as the Motivation section, the Visualizations section and the Discussion section of this page.
+Rasmus has been the main responsible for the bar-cart part of the visualization, as well as the Design Space Analysis section and Basic Stats section of this page.
+It should be said however, that we all have sat together during the development of all parts of the project, and thus all have a full understanding of every aspect of it.
+</p>
+
+    <script type="text/javascript"></script>
+    <script></script>
+	</body>
+</html>
