@@ -1,11 +1,13 @@
 {
-  "main.css": "static/css/main.689cdeaf.css",
-  "main.css.map": "static/css/main.689cdeaf.css.map",
-  "main.js": "static/js/main.6997c7aa.js",
-  "main.js.map": "static/js/main.6997c7aa.js.map",
+  "main.css": "static/css/main.579fc896.css",
+  "main.css.map": "static/css/main.579fc896.css.map",
+  "main.js": "static/js/main.bdce2883.js",
+  "main.js.map": "static/js/main.bdce2883.js.map",
   "static\\media\\OCRA.ttf": "static/media/OCRA.5ea3b76c.ttf",
-  "static\\media\\ai1.jpg": "static/media/ai1.50b91192.jpg",
-  "static\\media\\ai2.jpg": "static/media/ai2.b8e2d574.jpg",
-  "static\\media\\ai3.jpg": "static/media/ai3.47abf315.jpg",
-  "static\\media\\main-fig.png": "static/media/main-fig.9a158583.png"
+  "static\\media\\henrik.jpg": "static/media/henrik.dd71e3a7.jpg",
+  "static\\media\\main-fig.png": "static/media/main-fig.9a158583.png",
+  "static\\media\\main-mobile.png": "static/media/main-mobile.5933cfcf.png",
+  "static\\media\\mobile-background.png": "static/media/mobile-background.1bc63143.png",
+  "static\\media\\rasmus.jpg": "static/media/rasmus.d53b8af5.jpg",
+  "static\\media\\theis.jpg": "static/media/theis.c128b898.jpg"
 }
